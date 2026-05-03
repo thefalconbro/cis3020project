@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Finance Site</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+ 
+<nav>
+    <a href="#" onclick="showPage('home')">Home</a>
+    <a href="#" onclick="showPage('budget')">Budget Calculator</a>
+    <a href="#" onclick="showPage('savings')">Savings</a>
+    <a href="#" onclick="showPage('debt')">Debt</a>
+    <a href="#" onclick="showPage('learn')">Learn</a>
+</nav>
+ 
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+ 
+    <h1>My Personal Finance Site</h1>
+    <p>This site provides simple tools and explanations to help you budget, save, and manage debt.</p>
+ 
+    <hr />
+ 
+    <h2>Quick Tip</h2>
+    <p>A common budgeting guideline is the <strong>50/30/20 rule</strong>: 50% of income for needs, 30% for wants, and 20% for savings and debt repayment.</p>
+ 
+    <hr />
+ 
+    <h2>What Can This Site Do?</h2>
+    <p><strong>Budget Calculator</strong> - Enter your income and expenses to see how your money is being spent.</p>
+    <p><strong>Savings</strong> - Set a savings goal and find out how long it will take to reach it.</p>
+    <p><strong>Debt</strong> - Enter your debt details to see how long it will take to pay it off.</p>
+    <p><strong>Learn</strong> - Read short explanations of common finance topics.</p>
+ 
+</div>
+ 
+<!-- BUDGET PAGE -->
+<div id="page-budget" class="page">
+ 
+    <h1>Budget Calculator</h1>
+    <p>Enter your monthly income and expenses below to see your breakdown.</p>
+ 
+    <label for="income">Monthly Income (after tax) $</label>
+    <input type="number" id="income" min="0" />
+ 
+    <h2>Monthly Expenses</h2>
+ 
+    <label for="rent">Rent or Mortgage $</label>
+    <input type="number" id="rent" min="0" />
+ 
+    <label for="food">Groceries $</label>
+    <input type="number" id="food" min="0" />
+ 
+    <label for="transport">Transportation $</label>
+    <input type="number" id="transport" min="0" />
+ 
+    <label for="utilities">Utilities $</label>
+    <input type="number" id="utilities" min="0" />
+ 
+    <label for="other">Other $</label>
+    <input type="number" id="other" min="0" />
+ 
+    <br />
+    <button onclick="calculateBudget()">Calculate</button>
+ 
+    <div id="results-box">
+ 
+        <h3>Your Results</h3>
+ 
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>% of Income</th>
+                </tr>
+            </thead>
+            <tbody id="breakdown-body"></tbody>
+        </table>
+ 
+        <p>Total Expenses: <strong id="total-expenses-display">$0</strong></p>
+        <p>Money Left Over:</p>
+        <p id="leftover-display">$0</p>
+ 
+        <div id="warning-box" class="warning" style="display:none;">
+            You are spending more than you earn this month.
+        </div>
+ 
+    </div>
+ 
+</div>
+ 
+<!-- SAVINGS PAGE -->
+<div id="page-savings" class="page">
+ 
+    <h1>Savings Goal</h1>
+    <p>Enter your goal and monthly contribution to see how long it will take to reach your target.</p>
+ 
+    <label for="savings-goal">Savings Goal $</label>
+    <input type="number" id="savings-goal" min="0" />
+ 
+    <label for="current-savings">Current Savings $</label>
+    <input type="number" id="current-savings" min="0" />
+ 
+    <label for="monthly-contribution">Monthly Contribution $</label>
+    <input type="number" id="monthly-contribution" min="0" />
+ 
+    <label for="interest-rate">Annual Interest Rate (%) - optional</label>
+    <input type="number" id="interest-rate" min="0" step="0.1" />
+ 
+    <br />
+    <button onclick="calculateSavings()">Calculate</button>
+ 
+    <div id="savings-results-box">
+ 
+        <h3>Your Savings Plan</h3>
+ 
+        <div class="savings-summary">
+            <div class="savings-summary-card">
+                <div class="card-label">Time to Goal</div>
+                <div class="card-value" id="time-to-goal">-</div>
+            </div>
+            <div class="savings-summary-card">
+                <div class="card-label">Total Contributed</div>
+                <div class="card-value" id="total-contributed">-</div>
+            </div>
+            <div class="savings-summary-card">
+                <div class="card-label">Interest Earned</div>
+                <div class="card-value" id="total-interest-earned">-</div>
+            </div>
+            <div class="savings-summary-card">
+                <div class="card-label">Final Balance</div>
+                <div class="card-value" id="final-balance">-</div>
+            </div>
+        </div>
+ 
+        <h3>Yearly Breakdown</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Total Contributed</th>
+                    <th>Interest Earned</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody id="savings-breakdown-body"></tbody>
+        </table>
+ 
+    </div>
+ 
+</div>
+ 
+<!-- DEBT PAGE -->
+<div id="page-debt" class="page">
+ 
+    <h1>Debt Payoff Calculator</h1>
+    <p>Enter your debt details to see your payoff timeline and how much interest you will pay.</p>
+ 
+    <label for="debt-balance">Current Balance $</label>
+    <input type="number" id="debt-balance" min="0" />
+ 
+    <label for="debt-rate">Annual Interest Rate (%)</label>
+    <input type="number" id="debt-rate" min="0" step="0.1" />
+ 
+    <label for="debt-minimum">Monthly Payment $</label>
+    <input type="number" id="debt-minimum" min="0" />
+ 
+    <label for="debt-extra">Extra Monthly Payment $ - optional</label>
+    <input type="number" id="debt-extra" min="0" />
+ 
+    <br />
+    <button onclick="calculateDebt()">Calculate</button>
+ 
+    <div id="debt-results-box">
+ 
+        <h3>Your Payoff Summary</h3>
+ 
+        <div class="savings-summary">
+            <div class="savings-summary-card">
+                <div class="card-label">Time to Pay Off</div>
+                <div class="card-value" id="debt-time">-</div>
+            </div>
+            <div class="savings-summary-card">
+                <div class="card-label">Total Interest Paid</div>
+                <div class="card-value" id="debt-interest">-</div>
+            </div>
+            <div class="savings-summary-card">
+                <div class="card-label">Total Amount Paid</div>
+                <div class="card-value" id="debt-total-paid">-</div>
+            </div>
+            <div class="savings-summary-card">
+                <div class="card-label">Monthly Payment</div>
+                <div class="card-value" id="debt-monthly-payment">-</div>
+            </div>
+        </div>
+ 
+        <p id="debt-savings-note" style="display:none; color:#2e7d32; font-weight:bold;"></p>
+ 
+        <h3>Yearly Breakdown</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Principal Paid</th>
+                    <th>Interest Paid</th>
+                    <th>Remaining Balance</th>
+                </tr>
+            </thead>
+            <tbody id="debt-breakdown-body"></tbody>
+        </table>
+ 
+    </div>
+ 
+</div>
+ 
+<!-- LEARN PAGE -->
+<div id="page-learn" class="page">
+ 
+    <h1>Learn the Basics</h1>
+ 
+    <hr />
+ 
+    <h2>Budgeting</h2>
+ 
+    <h3>What is a Budget?</h3>
+    <p>A budget is a plan for how you will spend your money each month. You write down your income and your expenses so you always know where your money is going. Without a budget it is easy to spend more than you earn without realizing it.</p>
+ 
+    <h3>What is the 50/30/20 Rule?</h3>
+    <p>The 50/30/20 rule is a simple way to split your income. Spend 50% on needs like rent and groceries, 30% on wants like dining out or hobbies, and put the last 20% toward savings and paying off debt. It does not have to be exact, but it gives you a good starting point.</p>
+ 
+    <h3>What is a Fixed vs. Variable Expense?</h3>
+    <p>A fixed expense stays the same every month, like rent or a car payment. A variable expense changes month to month, like groceries or gas. Knowing the difference helps you figure out which expenses you have more control over.</p>
+ 
+    <hr />
+ 
+    <h2>Saving Money</h2>
+ 
+    <h3>What is an Emergency Fund?</h3>
+    <p>An emergency fund is money you set aside just for unexpected expenses, like a car repair or a medical bill. Most financial advisors suggest saving at least three to six months worth of living expenses. This money should be easy to access but kept separate from your regular spending account.</p>
+ 
+    <h3>What is Compound Interest?</h3>
+    <p>Compound interest means you earn interest on your savings, and then you also earn interest on the interest you already earned. Over time this causes your savings to grow faster and faster. For example, if you save $1,000 at 5% interest per year, after one year you have $1,050. The next year you earn interest on $1,050, not just the original $1,000.</p>
+ 
+    <h3>What is a High-Yield Savings Account?</h3>
+    <p>A high-yield savings account works like a regular savings account but pays a much higher interest rate. These are commonly offered by online banks. If you are keeping money in savings for a while, a high-yield account helps your money grow faster without any extra risk.</p>
+ 
+    <h3>What is a CD?</h3>
+    <p>A CD, or Certificate of Deposit, is a type of savings account where you agree to leave your money alone for a set period of time, such as 6 months or 2 years. In return the bank pays you a higher interest rate than a regular savings account. The downside is that if you take the money out early you usually pay a penalty fee.</p>
+ 
+    <hr />
+ 
+    <h2>Debt</h2>
+ 
+    <h3>What is Interest?</h3>
+    <p>Interest is the cost of borrowing money. When you take out a loan or carry a balance on a credit card, the lender charges you a percentage of what you owe. This gets added to your balance over time. The higher the interest rate, the more expensive the debt becomes.</p>
+ 
+    <h3>What is APR?</h3>
+    <p>APR stands for Annual Percentage Rate. It is the yearly cost of borrowing money shown as a percentage. For example, a credit card with a 20% APR means you are charged 20% of your balance in interest each year if you do not pay it off. When borrowing money, a lower APR is always better.</p>
+ 
+    <h3>What is the Debt Avalanche Method?</h3>
+    <p>The debt avalanche method means you focus on paying off your highest interest rate debt first while making minimum payments on everything else. Once that debt is paid off you move to the next highest rate. This method saves you the most money in interest over time.</p>
+ 
+    <h3>What is the Debt Snowball Method?</h3>
+    <p>The debt snowball method means you pay off your smallest debt balance first, no matter the interest rate. Once that is gone you put that same payment toward the next smallest debt. This method builds motivation because you see debts disappear faster, even if you pay a little more interest overall compared to the avalanche method.</p>
+ 
+    <h3>What is a Credit Score?</h3>
+    <p>A credit score is a number between 300 and 850 that tells lenders how reliable you are with money. A higher score makes it easier to get approved for loans and credit cards, often at lower interest rates. Your score is affected by things like paying bills on time, how much of your credit limit you are using, and how long you have had credit accounts open.</p>
+ 
+    <hr />
+ 
+    <h2>Investing Basics</h2>
+ 
+    <h3>What is Investing?</h3>
+    <p>Investing means putting your money into something with the goal of growing it over time. Common investments include stocks, bonds, and real estate. Investing carries more risk than a savings account, but it also offers the potential for much higher returns over the long run.</p>
+ 
+    <h3>What is a Stock?</h3>
+    <p>A stock is a small piece of ownership in a company. When you buy a stock you become a part-owner of that company. If the company does well your stock becomes more valuable. If it does poorly your stock can lose value. Stocks are bought and sold on stock markets like the New York Stock Exchange.</p>
+ 
+    <h3>What is a Bond?</h3>
+    <p>A bond is like a loan you give to a company or government. In return they promise to pay you back after a set period of time, plus regular interest payments along the way. Bonds are generally considered safer than stocks but have lower potential returns.</p>
+ 
+    <h3>What is a 401(k)?</h3>
+    <p>A 401(k) is a retirement savings account offered through your employer. Money is taken out of your paycheck before taxes and invested for your retirement. Many employers will match a portion of what you put in, which is essentially free money. You generally cannot take the money out without a penalty until age 59 and a half.</p>
+ 
+    <h3>What is Diversification?</h3>
+    <p>Diversification means spreading your money across different types of investments so that if one loses value the others might not. The common saying is to not put all your eggs in one basket. A mix of stocks, bonds, and other assets is a typical way to diversify a portfolio.</p>
+ 
+</div>
+ 
+<script src="script.js"></script>
+</body>
+</html>
